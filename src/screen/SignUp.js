@@ -4,11 +4,13 @@ import { ImageBackground, View, TextInput, TouchableOpacity, Button, Image, Back
 import CustomeTextInput from '../component/CustomeTextInput'
 
 
-export default class LoginScreen extends React.Component {
+export default class SignUp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             Email: "",
+            fname: "",
+            lname: "",
             password: ""
         }
     }
@@ -17,10 +19,10 @@ export default class LoginScreen extends React.Component {
 
     }
 
-    onPressLogin = () => {
+    onPressSignUp = () => {
 
-        if (this.state.email != "" && this.state.password != "") {
-            fetch("https://api.oopacks.com/api/test/login", {
+        if (this.state.email != "" && this.state.password != "" && this.state.fname != "" && this.state.lname != "") {
+            fetch("https://api.oopacks.com/api/test/register", {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -28,7 +30,9 @@ export default class LoginScreen extends React.Component {
                 },
                 body: JSON.stringify({
                     emailorphonenumber: this.state.email,
-                    password: this.state.password
+                    password: this.state.password,
+                    firstName: this.state.fname,
+                    lastname: this.state.lname,
                 }),
             }).then((response) => response.json())
                 .then((responseJson) => {
@@ -40,29 +44,35 @@ export default class LoginScreen extends React.Component {
         }
     }
 
-    onPressSignUp = () => {
-        this.props.navigation.navigate("SignUp")
+    onPressLogin = () => {
+        this.props.navigation.navigate("LoginScreen")
     }
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: 'black' }}>
-                <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ alignSelf: 'center', color: "white", fontSize: 30 }} >OOPACKS </Text>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ alignSelf: 'center', color: "white", fontSize: 30 }} >Sign Up </Text>
                 </View>
                 <View style={{ flex: 4, alignContent: 'center', borderTopLeftRadius: 50, paddingHorizontal: 50, paddingVertical: 20, backgroundColor: "gray" }}>
-                    <Text style={{ alignSelf: 'center', color: "black", fontSize: 30 }} >Login </Text>
 
                     <View style={{ paddingVertical: 50 }}>
+                        <CustomeTextInput onChangeText={(val) => this.setState({ fname: val })} placeholder="First Name" />
+
+                        <CustomeTextInput onChangeText={(val) => this.setState({ lname: val })} placeholder="Last Name" />
+
+
                         <CustomeTextInput onChangeText={(val) => this.setState({ Email: val })} placeholder="E-mail" />
+
                         <CustomeTextInput secureTextEntry={true} onChangeText={(val) => this.setState({ password: val })} placeholder="Password" />
 
-                        <TouchableOpacity onPress={() => this.onPressLogin()} style={{ padding: 15, borderRadius: 5, marginTop: 10, backgroundColor: "black" }}>
-                            <Text style={{ alignSelf: "center", color: "white" }} >Login </Text>
+
+                        <TouchableOpacity onPress={() => this.onPressSignUp()} style={{ padding: 15, borderRadius: 5, marginTop: 10, backgroundColor: "black" }}>
+                            <Text style={{ alignSelf: "center", color: "white" }} >Sign Up </Text>
                         </TouchableOpacity>
                     </View>
 
-                    <TouchableOpacity onPress={() => this.onPressSignUp()} style={{ padding: 8, borderRadius: 10, }}>
-                        <Text style={{ alignSelf: "center", color: "black", fontSize: 10 }} >Don't have any account? sign up </Text>
+                    <TouchableOpacity onPress={() => this.onPressLogin()} style={{ padding: 8, borderRadius: 10, }}>
+                        <Text style={{ alignSelf: "center", color: "black", fontSize: 10 }} >You hve a account? Login </Text>
                     </TouchableOpacity>
                 </View>
 
